@@ -1,9 +1,8 @@
 package com.example.exampleviewmodel;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
-
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -15,7 +14,6 @@ public class MainActivity extends AppCompatActivity {
     Button addBtn,resetBtn;
 
     ResultViewModel resultViewModel;
-    //int result=0;
 
 
     @Override
@@ -28,7 +26,16 @@ public class MainActivity extends AppCompatActivity {
         addBtn = findViewById(R.id.AddId);
         resetBtn = findViewById(R.id.resetId);
 
-        resultViewModel = ViewModelProviders.of(this).get(ResultViewModel.class);
+
+        resultViewModel = new ViewModelProvider(this).get(ResultViewModel.class);
+
+        resultViewModel.getScore().observe(this, new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integer) {
+                resultId.setText(String.valueOf(integer));
+            }
+        });
+
 
 
 
@@ -36,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-            addResult();
+            plusResult();
 
             }
         });
@@ -47,13 +54,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                resetResult();
+                defaultResult();
 
             }
         });
 
 
-        resultId.setText(String.valueOf(resultViewModel.getResult()));
+
+
+
 
 
 
@@ -62,24 +71,20 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void resetResult() {
+    private void defaultResult() {
 
         resultViewModel.resetResult();
 
-        String result = String.valueOf(resultViewModel.getResult());
 
-        resultId.setText(result);
 
     }
 
 
-    public  void addResult()
+    public  void plusResult()
     {
         resultViewModel.addResult();
 
-        String result = String.valueOf(resultViewModel.getResult());
 
-        resultId.setText(result);
 
     }
 }

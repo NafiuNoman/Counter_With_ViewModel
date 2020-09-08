@@ -1,40 +1,44 @@
 package com.example.exampleviewmodel;
 
 
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 public class ResultViewModel extends ViewModel {
 
 
-    private Integer result;
 
-    public Integer getResult()
+    private MutableLiveData<Integer> score;
 
+    public MutableLiveData<Integer> getScore()
     {
-        if (result == null)
+        if(score == null)
         {
-            return 0;
+            score = new MutableLiveData<>();
+            score.setValue(0);
         }
+        return score;
 
-        return result;
 
     }
 
 
+
+
+
     public void addResult()
     {
-        if(result == null)
-        {
-            result = 0;
-        }
-        result += 1;
+        int i = score.getValue() + 1;
+        score.setValue(i);
 
     }
 
     public void resetResult()
     {
-        result = 0;
+        score.setValue(0);
+
     }
+
 
 
 
